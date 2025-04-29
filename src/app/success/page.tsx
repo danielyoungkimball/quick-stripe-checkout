@@ -1,16 +1,37 @@
+'use client';
+
 import Link from 'next/link';
+import { Inter, Righteous } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+const righteous = Righteous({ 
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-righteous',
+});
 
 export default function Success() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Thank you for your donation! 🎉</h1>
-      <p className="text-lg mb-6">Joji appreciates your support! 🐱</p>
-      <Link 
-        href="/"
-        className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition"
-      >
-        Back to Home
-      </Link>
+    <div className={`${inter.className} ${righteous.variable} flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-b from-gray-900 to-gray-800 text-center`}>
+      <div className="space-y-6">
+        <h1 className="font-righteous text-5xl font-bold text-white tracking-wide">
+          Thank You! 🎉
+        </h1>
+        <div className="space-y-4">
+          <p className="text-xl text-gray-200 font-light">
+            Joji appreciates your support! 🐱
+          </p>
+          <p className="text-lg text-gray-300 font-light">
+            Your donation will help keep the snack bowl full! 🍖
+          </p>
+        </div>
+        <Link 
+          href="/"
+          className="inline-block bg-purple-600 text-white px-8 py-4 rounded-full hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 font-medium text-lg shadow-lg hover:shadow-purple-500/25"
+        >
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
 } 
