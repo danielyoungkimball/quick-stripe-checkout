@@ -12,16 +12,16 @@ export async function POST() {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Test Item',
+              name: "Donation for Joji's Snacks",
             },
-            unit_amount: 100,
+            unit_amount: 500, // $5
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: 'https://sendmycatmoney.com/success',
+      cancel_url: 'https://sendmycatmoney.com/cancel',
     });
 
     return NextResponse.json({ id: session.id });
