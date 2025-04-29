@@ -56,8 +56,8 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
           <p>
             If you have any questions about this Privacy Policy, please contact us at{' '}
-            <a href="mailto:privacy@sendmycatmoney.com" className="text-purple-400 hover:text-purple-300">
-              privacy@sendmycatmoney.com
+            <a href="mailto:joji@corporate-100.com" className="text-purple-400 hover:text-purple-300">
+              joji@corporate-100.com
             </a>
           </p>
         </section>

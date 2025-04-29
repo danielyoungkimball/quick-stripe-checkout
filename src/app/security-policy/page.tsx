@@ -8,7 +8,7 @@ export default function SecurityPolicy() {
           <h2 className="text-2xl font-semibold mb-4">Reporting Security Vulnerabilities</h2>
           <p className="mb-4">
             We at Ace Fortuna LLC take the security of Joji&apos;s Snack Fund seriously. If you believe you&apos;ve found a security vulnerability, 
-            please report it to us at security@sendmycatmoney.com.
+            please report it to us at joji@corporate-100.com.
           </p>
           <p>
             We will respond to all legitimate security reports within 48 hours and keep you updated on our progress.
@@ -44,8 +44,8 @@ export default function SecurityPolicy() {
           <h2 className="text-2xl font-semibold mb-4">Contact</h2>
           <p>
             For any security-related questions or concerns, please contact us at{' '}
-            <a href="mailto:security@sendmycatmoney.com" className="text-purple-400 hover:text-purple-300">
-              security@sendmycatmoney.com
+            <a href="mailto:joji@corporate-100.com" className="text-purple-400 hover:text-purple-300">
+              joji@corporate-100.com
             </a>
           </p>
         </section>
