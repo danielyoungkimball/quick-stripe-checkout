@@ -5,13 +5,11 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('STRIPE_SECRET_KEY is not configured');
 }
 
-if (!process.env.NEXT_PUBLIC_BASE_URL) {
-  throw new Error('NEXT_PUBLIC_BASE_URL is not configured');
-}
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2025-03-31.basil',
 });
+
+const DOMAIN = 'https://sendmycatmoney.com';
 
 export async function POST() {
   try {
@@ -24,7 +22,7 @@ export async function POST() {
             product_data: {
               name: 'Donation to Joji',
               description: 'Support Joji\'s snack fund',
-              images: [`${process.env.NEXT_PUBLIC_BASE_URL}/joji-thumbnail.jpg`],
+              images: [`${DOMAIN}/joji-thumbnail.jpg`],
             },
             unit_amount: 500, // $5.00
           },
@@ -32,8 +30,8 @@ export async function POST() {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      success_url: `${DOMAIN}/success`,
+      cancel_url: `${DOMAIN}/cancel`,
     });
 
     return NextResponse.json({ id: session.id });
