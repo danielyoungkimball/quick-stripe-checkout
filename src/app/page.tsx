@@ -14,15 +14,25 @@ const righteous = Righteous({
 export default function Home() {
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    // Load Stripe on component mount
     fetch('/api/config')
       .then(res => res.json())
       .then(data => {
+        if (data.error) {
+          console.error('Error loading Stripe configuration:', data.error);
+          return;
+        }
         setStripePromise(loadStripe(data.publishableKey));
+      })
+      .catch(error => {
+        console.error('Error fetching Stripe configuration:', error);
       });
 
+    // Handle video playback
     const video = videoRef.current;
     if (!video) return;
 
@@ -46,18 +56,38 @@ export default function Home() {
   };
 
   const handleDonate = async () => {
-    const stripe = await stripePromise;
-    if (!stripe) return;
-    
-    const res = await fetch('/api/create-checkout-session', { method: 'POST' });
-    const session = await res.json();
+    try {
+      setIsLoading(true);
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize');
+      }
 
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (result.error) {
-      alert(result.error.message);
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Payment failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -93,9 +123,12 @@ export default function Home() {
       </p>
       <button
         onClick={handleDonate}
-        className="bg-purple-600 text-white px-8 py-4 rounded-full hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 font-medium text-lg shadow-lg hover:shadow-purple-500/25"
+        disabled={isLoading}
+        className={`bg-purple-600 text-white px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 font-medium text-lg shadow-lg hover:shadow-purple-500/25 ${
+          isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-purple-700'
+        }`}
       >
-        Send $5
+        {isLoading ? 'Processing...' : 'Send $5'}
       </button>
     </div>
   );
