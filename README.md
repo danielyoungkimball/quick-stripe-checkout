@@ -51,7 +51,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_key
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/send-my-cat-money.git
+git clone https://github.com/danielyoungkimball/send-my-cat-money.git
 cd send-my-cat-money
 ```
 
