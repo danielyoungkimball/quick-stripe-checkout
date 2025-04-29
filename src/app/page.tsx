@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { Inter, Righteous } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -12,7 +12,7 @@ const righteous = Righteous({
 });
 
 export default function Home() {
-  const [stripePromise, setStripePromise] = useState<any>(null);
+  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -47,6 +47,8 @@ export default function Home() {
 
   const handleDonate = async () => {
     const stripe = await stripePromise;
+    if (!stripe) return;
+    
     const res = await fetch('/api/create-checkout-session', { method: 'POST' });
     const session = await res.json();
 
@@ -87,7 +89,7 @@ export default function Home() {
         )}
       </div>
       <p className="text-xl mb-8 text-gray-200 font-light">
-        Support Joji's snack fund 🍖
+        Support Joji&apos;s snack fund 🍖
       </p>
       <button
         onClick={handleDonate}

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-03-31.basil',
+});
 
 export async function POST() {
   try {
@@ -12,21 +14,25 @@ export async function POST() {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: "Donation for Joji's Snacks",
+              name: 'Donation to Joji',
+              description: 'Support Joji\'s snack fund',
             },
-            unit_amount: 500, // $5
+            unit_amount: 500, // $5.00
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'https://sendmycatmoney.com/success',
-      cancel_url: 'https://sendmycatmoney.com/cancel',
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
     });
 
-    return NextResponse.json({ id: session.id });
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json(session);
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    return NextResponse.json(
+      { error: 'Error creating checkout session' },
+      { status: 500 }
+    );
   }
 }
