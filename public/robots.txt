@@ -1,0 +1,6 @@
+# Allow all crawlers for Ace Fortuna LLC - Joji's Snack Fund
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sendmycatmoney.com/sitemap.xml 
